@@ -38,6 +38,38 @@ app.get("/api/getstudent", async (req, res) => {
   }
 });
 
+app.get("/api/lateststudents", async (req, res) => {
+  try {
+    const sortedStudents = await STUDENT_MODEL.find().sort({ PassoutYear: 1 });
+    return res.json({ success: true, data: sortedStudents });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+app.get("/api/limimtedstudents", async (req, res) => {
+  try {
+    const sortedStudents = await STUDENT_MODEL.find().limit(1);
+    return res.json({ success: true, data: sortedStudents });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ success: false, error: error.messsage });
+  }
+});
+
+app.get("/api/latesttwo", async (req, res) => {
+  try {
+    const sortedStudents = await STUDENT_MODEL.find()
+      .sort({ age: -1 })
+      .limit(2);
+    return res.json({ success: true, data: sortedStudents });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ success: false, error: error.message });
+  }
+});
+
 connectDatabase();
 const PORT = 8000;
 
